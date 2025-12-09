@@ -1,0 +1,63 @@
+---
+version: "0.5.4"
+assignments:
+  heart_mpra_assignment:
+    bc_length: 15
+    BC_rev_comp: false
+    
+    # Remove primers from merged reads so only the enhancer (insert) remains
+    # Library structure: [R1 primer][enhancer 200–261bp][RC(R2 primer)]; read1 261bp, read2 15bp, read3 261bp
+    # Use the primer sequences in read orientation after merging (R1-oriented):
+    #  - 5' (left) adapter to trim:  R1 primer AGGACCGGATCAACT
+    #  - 3' (right) adapter to trim: reverse-complement of R2 primer CATTGCGTGAACCGA
+    adapters:
+      5prime:
+        - "AGGACCGGATCAACT"   # R1 primer at 5' end of merged read
+      3prime:
+        - "CATTGCGTGAACCGA"   # RC of R2 primer at 3' end of merged read
+    
+    # NGmerge parameters for high-quality R1+R3 merging
+    NGmerge:
+      min_overlap: 100
+      frac_mismatches_allowed: 0.1
+      min_dovetailed_overlap: 50
+    
+    strand_sensitive:
+      enable: false
+      forward_adapter: AGGACCGGATCAACT
+      reverse_adapter: TCGGTTCACGCAATG
+    
+    design_check:
+      fast: true
+      sequence_collitions: true
+    
+    #The reason for this lower mapping quality is that in MPRA experiments with reference/alternate allele oligos, BWA finds multiple potential mapping locations. Even for perfect matches (NM:i:0), the mapping quality is reduced to 6 because BWA detects alternative mapping locations with nearly identical scores. Thus set min_mapping_quality: 1 rather than using a higher threshold like 60, specifically to accommodate this situation.
+    #
+    # Use BWA to allow variable enhancer length while enforcing exact matches (NM=0)
+    alignment_tool:
+      split_number: 6
+      tool: bwa
+      configs:
+        min_mapping_quality: 1
+        sequence_length:
+          min: 238
+          max: 261
+        alignment_start:
+          min: 1
+          max: 1
+    
+    FW:
+      - /path/to/MPRA/association/plasmid_seq/Undetermined_S0_L001_R1_001.fastq.gz
+    BC: 
+      - /path/to/MPRA/association/plasmid_seq/Undetermined_S0_L001_R2_001.fastq.gz
+    REV:
+      - /path/to/MPRA/association/plasmid_seq/Undetermined_S0_L001_R3_001.fastq.gz
+    
+    # Use the deduplicated 261-bp reference (relative path inside repo)
+    design_file: /path/to/MPRA/association/Di_mpra_igvfupload.heart.ref_oligos.fa
+    
+    configs:
+      default: 
+        min_support: 3               # Conservative filtering
+        fraction: 0.75               # High confidence assignments
+

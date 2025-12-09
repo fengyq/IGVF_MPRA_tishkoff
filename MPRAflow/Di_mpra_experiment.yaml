@@ -1,0 +1,43 @@
+---
+# Template for running experiment-level SNP effects for Heart MPRA
+# - Fill in `data_folder` and `experiment_file` with your RNA/DNA FASTQ sample sheet
+# - Variants map is generated from the FASTA headers (ID, REF, ALT)
+
+version: "0.5.4"
+skip_version_check: false
+
+experiments:
+  heartMPRA:
+    bc_length: 15
+    umi_length: 10           # set to your actual UMI length; remove if no UMI
+    data_folder: path/to/MPRA/RNA_DNA/count_ratio/NX120   
+    experiment_file: path/to/MPRA/RNA_DNA/count_ratio/NX120/heart_mpra_experiment_NX120.csv
+    demultiplex: false
+
+    # Use assignment results produced by the assignment workflow
+    assignments:
+      fromFile:
+        type: file
+        assignment_file: path/to/MPRA/association/results/assignment/heart_mpra_assignment/assignment_barcodes.default.tsv.gz
+    
+    design_file: path/to/MPRA/RNA_DNA/Di_mpra_igvfupload.heart.ref_oligos.fa
+    label_file: path/to/MPRA/RNA_DNA/Di_mpra_igvfupload.heart.ref_oligos.label.tsv
+
+    # Configure per-project filtering and thresholds
+    configs:
+      default:
+        filter:
+          bc_threshold: 20
+          min_dna_counts: 1
+          min_rna_counts: 1
+      BC40D2R2:
+        filter:
+          bc_threshold: 40
+          min_dna_counts: 2
+          min_rna_counts: 2
+
+    # SNP allele-effect analysis
+    variants:
+      map: path/to/MPRA/RNA_DNA/heart_variants_map.tsv  # generated from FASTA headers
+      min_barcodes: [40, 60]                                           # replicate-correlation thresholds
+

@@ -1,0 +1,7 @@
+Condition,Replicate,DNA_BC_F,DNA_UMI,RNA_BC_F,RNA_UMI
+NX120,1,MPRA_D8_S8_barcode.fastq.gz,MPRA_D8_S8_umi.fastq.gz,MPRA_R8_S20_barcode.fastq.gz,MPRA_R8_S20_umi.fastq.gz
+NX120,2,MPRA_D9_S9_barcode.fastq.gz,MPRA_D9_S9_umi.fastq.gz,MPRA_R9_S21_barcode.fastq.gz,MPRA_R9_S21_umi.fastq.gz
+NX120,3,MPRA_D10_S10_barcode.fastq.gz,MPRA_D10_S10_umi.fastq.gz,MPRA_R10_S22_barcode.fastq.gz,MPRA_R10_S22_umi.fastq.gz
+NX120,4,MPRA_D11_S11_barcode.fastq.gz,MPRA_D11_S11_umi.fastq.gz,MPRA_R11_S23_barcode.fastq.gz,MPRA_R11_S23_umi.fastq.gz
+NX120,5,MPRA_D12_S12_barcode.fastq.gz,MPRA_D12_S12_umi.fastq.gz,MPRA_R12_S24_barcode.fastq.gz,MPRA_R12_S24_umi.fastq.gz
+
