@@ -1,4 +1,4 @@
-# mpralm
+# mpralm v1.16.0
 
 This directory contains R scripts that support MPRA analysis using the `mpralm` package.
 
